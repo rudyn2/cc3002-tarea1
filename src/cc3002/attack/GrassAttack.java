@@ -11,6 +11,5 @@ public class GrassAttack extends AbstractAttack {
     @Override
     public void attack(IPokemon pokemon) {
         pokemon.receiveGrassAttack(this);
-
     }
 }

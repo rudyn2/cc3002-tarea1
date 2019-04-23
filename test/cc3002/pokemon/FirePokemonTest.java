@@ -79,6 +79,15 @@ class FirePokemonTest {
         squirtle.attack(charmander);
         assertEquals(charmander.getHp(), 0 );
         assertTrue(charmander.isDead());
+    }
+
+    @Test
+    void descriptionTest(){
+
+    }
+
+    @Test
+    void selectAttackTest(){
 
     }
 
