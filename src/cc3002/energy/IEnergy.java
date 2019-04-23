@@ -3,6 +3,11 @@ package cc3002.energy;
 import cc3002.ICard;
 import cc3002.pokemon.IPokemon;
 
+/**
+ * Common interface for all the possibles energies. Every energy can be assigned to a pokemon
+ * and needs to have a base energy and a name.
+ * @author Rudy García Alvarado
+ */
 public interface IEnergy extends ICard{
 
     /** Getter for the base energy of the energy card.
