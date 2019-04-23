@@ -13,12 +13,20 @@ public class FighterPokemon extends AbstractPokemon {
     }
 
     @Override
+    public void attack(IPokemon pokemon) {
+        if (this.getSelectedAttack().checkFighterEnergy(this)) {
+            this.getSelectedAttack().attack(pokemon);
+            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
+        }
+    }
+
+    @Override
     public void receiveGrassAttack(GrassAttack attack) {
-        this.hp -= attack.getBaseDamage()*2;
+        this.makeDamage(attack.getBaseDamage()*2);
     }
 
     @Override
     public void receivePsychicAttack(PsychicAttack attack) {
-        this.hp -= attack.getBaseDamage()*2;
+        this.makeDamage(attack.getBaseDamage()*2);
     }
 }

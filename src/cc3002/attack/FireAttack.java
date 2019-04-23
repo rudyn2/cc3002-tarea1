@@ -12,4 +12,6 @@ public class FireAttack extends AbstractAttack {
     public void attack(IPokemon pokemon) {
         pokemon.receiveFireAttack(this);
     }
+
+
 }

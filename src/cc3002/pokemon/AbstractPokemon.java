@@ -8,17 +8,17 @@ import java.util.HashMap;
 
 public abstract class AbstractPokemon implements IPokemon {
 
-    protected int hp;
+    private int hp;
     private String name;
     private ArrayList<IAttack> attacks;
-    private int damageCounter;
-    private HashMap<String, ArrayList<IEnergy>> energyAvailable;
+    public HashMap<String, ArrayList<IEnergy>> energyAvailable;
+    private IAttack selectedAttack;
 
     AbstractPokemon(int hp, String name, ArrayList<IAttack> attacks){
         this.hp = hp;
         this.name = name;
         this.attacks = attacks;
-        this.damageCounter = 0;
+        this.selectAttack(0);
         this.energyAvailable =  new HashMap<>();
 
         // Init the initial energy as 0 for all the fields
@@ -40,8 +40,14 @@ public abstract class AbstractPokemon implements IPokemon {
     }
 
     @Override
+    public void makeDamage(int damage) {
+        this.hp -= damage;
+
+    }
+
+    @Override
     public boolean isDead() {
-        return damageCounter >= hp;
+        return hp <= 0;
     }
 
     @Override
@@ -52,6 +58,16 @@ public abstract class AbstractPokemon implements IPokemon {
     @Override
     public ArrayList<IAttack> getAttacks(){
         return this.attacks;
+    }
+
+    @Override
+    public IAttack getSelectedAttack() {
+        return selectedAttack;
+    }
+
+    @Override
+    public void selectAttack(int option) {
+        this.selectedAttack = this.attacks.get(option);
     }
 
     @Override
@@ -124,12 +140,11 @@ public abstract class AbstractPokemon implements IPokemon {
         ArrayList<IEnergy> energies = this.energyAvailable.get("FighterEnergies");
         energies.add(energy);
         this.energyAvailable.replace("FighterEnergies", energies);
-
     }
 
     @Override
     public void receiveWaterEnergy(WaterEnergy energy) {
-        ArrayList<IEnergy> energies = this.energyAvailable.get("WatereEnergies");
+        ArrayList<IEnergy> energies = this.energyAvailable.get("WaterEnergies");
         energies.add(energy);
         this.energyAvailable.replace("WaterEnergies", energies);
 

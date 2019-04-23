@@ -19,7 +19,15 @@ public class ElectricPokemon extends AbstractPokemon {
 
     @Override
     public void receiveFighterAttack(FighterAttack attack) {
-        this.hp -= attack.getBaseDamage()*2;
+        this.makeDamage(attack.getBaseDamage()*2);
+    }
+
+    @Override
+    public void attack(IPokemon pokemon) {
+        if (this.getSelectedAttack().checkElectricEnergy(this)) {
+            this.getSelectedAttack().attack(pokemon);
+            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
+        }
     }
 
 }

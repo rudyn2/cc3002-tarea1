@@ -12,12 +12,20 @@ public class PsychicPokemon extends AbstractPokemon {
     }
 
     @Override
+    public void attack(IPokemon pokemon) {
+        if (this.getSelectedAttack().checkPsychicEnergy(this)) {
+            this.getSelectedAttack().attack(pokemon);
+            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
+        }
+    }
+
+    @Override
     public void receivePsychicAttack(PsychicAttack attack) {
-        this.hp -= attack.getBaseDamage()*2;
+        this.makeDamage(attack.getBaseDamage()*2);
     }
 
     @Override
     public void receiveFighterAttack(FighterAttack attack) {
-        this.hp -= (attack.getBaseDamage()-30);
+        this.makeDamage(attack.getBaseDamage()-30);
     }
 }

@@ -13,7 +13,17 @@ public class FirePokemon extends AbstractPokemon{
 
     @Override
     public void receiveWaterAttack(WaterAttack attack) {
-        this.hp -= attack.getBaseDamage()*2;
+        this.makeDamage(attack.getBaseDamage()*2);
+    }
+
+    @Override
+    public void attack(IPokemon pokemon) {
+        if (this.getSelectedAttack().checkFireEnergy(this)) {
+            this.getSelectedAttack().attack(pokemon);
+            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
+        } else {
+            System.out.println("Al parecer " + this.getName() + " no tiene suficiente energía!");
+        }
     }
 
 
