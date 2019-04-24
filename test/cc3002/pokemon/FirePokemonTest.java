@@ -1,8 +1,6 @@
 package cc3002.pokemon;
 
-import cc3002.attack.FireAttack;
-import cc3002.attack.IAttack;
-import cc3002.attack.WaterAttack;
+import cc3002.attack.*;
 import cc3002.energy.FireEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,15 +9,21 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FirePokemonTest {
     private FireAttack fireAttack;
-    private FireAttack supremeFireAttack;
     private WaterAttack waterAttack;
+    private ElectricAttack electricAttack;
+    private FighterAttack fighterAttack;
+    private GrassAttack grassAttack;
+    private PsychicAttack psychicAttack;
+
     private WaterAttack supremeWaterAttack;
-    private ArrayList<IAttack> fire_attacks;
+    private FireAttack supremeFireAttack;
+
+
+    private ArrayList<IAttack> fireAttacks;
     private ArrayList<IAttack> water_attacks;
 
     private FirePokemon charmander;
@@ -31,17 +35,21 @@ class FirePokemonTest {
     @BeforeEach
     void setUp() {
 
-        // fire attacks creation
-        fireAttack = new FireAttack("LLama de fuego", "", 10, 5);
-        supremeFireAttack = new FireAttack("Tormenta de fuego", "", 50, 12);
-
-        // water attacks creation
+        // simple attack creation
+        fireAttack = new FireAttack("LLama de fuego", "Fuego azul valyrio", 10, 5);
         waterAttack = new WaterAttack("Bola de agua", "", 10, 4);
+        electricAttack = new ElectricAttack("Rayo bélico", "Chamas", 5, 2);
+        grassAttack = new GrassAttack("Hiedra venenosa", "Te mata al tocarla", 5, 2);
+        psychicAttack = new PsychicAttack("Hipnosis", "Te enloquezco", 10,2);
+        fighterAttack = new FighterAttack("Combazo", "Te aturde", 10, 2);
+
+        // special attack creation
+        supremeFireAttack = new FireAttack("Tormenta de fuego", "", 50, 12);
         supremeWaterAttack = new WaterAttack("Tsunami", "", 50, 10);
 
         // charmander attacks assignation
-        fire_attacks = new ArrayList<>(Arrays.asList(fireAttack, supremeFireAttack));
-        charmander = new FirePokemon(100, "Charmander", fire_attacks);
+        fireAttacks = new ArrayList<>(Arrays.asList(fireAttack, supremeFireAttack));
+        charmander = new FirePokemon(100, "Charmander", fireAttacks);
 
         // squirtle attacks assignation
         water_attacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
@@ -55,14 +63,7 @@ class FirePokemonTest {
     }
 
     @Test
-    void simpleAttack(){
-        charmander.selectAttack(0);
-        charmander.attack(squirtle);
-    }
-
-    @Test
-    void epicBattleTest(){
-        charmander.selectAttack(0);
+    void battleTest(){
         charmander.attack(squirtle);
         assertEquals(squirtle.getHp(), 100);
 
@@ -83,14 +84,41 @@ class FirePokemonTest {
 
     @Test
     void descriptionTest(){
+        assertEquals("Charmander", charmander.getName());
+        assertEquals(100, charmander.getHp());
+        assertFalse(charmander.isDead());
+        assertEquals(fireAttacks, charmander.getAttacks());
+        assertEquals(fireAttack, charmander.getSelectedAttack());
 
     }
 
     @Test
     void selectAttackTest(){
-
+        charmander.selectAttack(1);
+        assertEquals(supremeFireAttack, charmander.getSelectedAttack());
+        charmander.selectAttack(0);
+        assertEquals(fireAttack, charmander.getSelectedAttack());
+        charmander.selectAttack(-1);
+        assertEquals(fireAttack, charmander.getSelectedAttack());
+        charmander.selectAttack(10000);
+        assertEquals(fireAttack, charmander.getSelectedAttack());
     }
 
+    @Test
+    void receiveAttacks(){
+        fireAttack.attack(charmander);
+        assertEquals(90, charmander.getHp());
+        waterAttack.attack(charmander);
+        assertEquals(70, charmander.getHp());
+        grassAttack.attack(charmander);
+        assertEquals(65, charmander.getHp());
+        electricAttack.attack(charmander);
+        assertEquals(60, charmander.getHp());
+        fighterAttack.attack(charmander);
+        assertEquals(50, charmander.getHp());
+        psychicAttack.attack(charmander);
+        assertEquals(40, charmander.getHp());
+    }
 
 
 }

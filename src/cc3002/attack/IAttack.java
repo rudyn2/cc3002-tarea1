@@ -2,6 +2,10 @@ package cc3002.attack;
 
 import cc3002.pokemon.*;
 
+/**
+ * Common interface for the generic attack. "The attack attacks the pokemon". Every attack has a name,
+ * description, base damage and a cost. It also needs to be able to check if some pokemon can use it.
+ */
 public interface IAttack {
 
     /**

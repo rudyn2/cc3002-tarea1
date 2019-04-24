@@ -53,6 +53,7 @@ public abstract class AbstractPokemon implements IPokemon {
 
         this.energyAvailable.put("GrassEnergies", new ArrayList<>());
         this.energyAvailable.put("FireEnergies", new ArrayList<>());
+        this.energyAvailable.put("FighterEnergies", new ArrayList<>());
         this.energyAvailable.put("ElectricEnergies", new ArrayList<>());
         this.energyAvailable.put("PsychicEnergies", new ArrayList<>());
         this.energyAvailable.put("WaterEnergies", new ArrayList<>());
@@ -79,7 +80,9 @@ public abstract class AbstractPokemon implements IPokemon {
      */
     @Override
     public void makeDamage(int damage) {
-        this.hp -= damage;
+        if (damage >= 0) {
+            this.hp -= damage;
+        }
 
     }
 

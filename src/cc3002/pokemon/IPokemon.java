@@ -7,6 +7,11 @@ import cc3002.energy.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Common interface for a generic pokemon. Each pokemon has to be able to attack other pokemon and
+ * receive attack, select attacks and a set of multiples getters for get information about its status.
+ * By other side, it needs to be able to receive energy for the execution of the attacks.
+ */
 public interface IPokemon extends ICard{
 
     /**

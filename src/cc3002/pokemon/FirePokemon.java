@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class FirePokemon extends AbstractPokemon{
 
-    FirePokemon(int hp, String name, ArrayList<IAttack> attacks){
+    public FirePokemon(int hp, String name, ArrayList<IAttack> attacks){
         super(hp, name, attacks);
     }
 
