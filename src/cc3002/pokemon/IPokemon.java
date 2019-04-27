@@ -1,7 +1,7 @@
 package cc3002.pokemon;
 
-import cc3002.ICard;
 import cc3002.attack.*;
+import cc3002.card.ICard;
 import cc3002.energy.*;
 
 import java.util.ArrayList;
@@ -25,11 +25,16 @@ public interface IPokemon extends ICard{
      */
     void makeDamage(int damage);
 
-
     /** Check if the pokemon is death.
      * @return True if the pokemon is death.
      */
     boolean isDead();
+
+    /**
+     * Getter for the id of the pokemon.
+     * @return The id of the pokemon.
+     */
+    int getId();
 
 
     /** Getter for the available energies.

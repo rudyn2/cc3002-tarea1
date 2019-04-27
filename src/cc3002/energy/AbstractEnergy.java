@@ -1,5 +1,7 @@
 package cc3002.energy;
 
+import cc3002.trainer.ITrainer;
+
 /**
  * Abstract class that represent a generic energy. It has the minimal energy specifications in
  * order to make a interaction between attacks and pokemon. The game logic says that a pokemon needs
@@ -37,6 +39,17 @@ public abstract class AbstractEnergy implements IEnergy {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Nombre: " + this.getName() + ", Tipo: Energía";
+    }
+
+
+    @Override
+    public void play(ITrainer trainer) {
+        this.assignEnergy(trainer.getActivePokemon());
     }
 
     /**

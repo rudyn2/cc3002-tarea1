@@ -2,6 +2,7 @@ package cc3002.pokemon;
 
 import cc3002.attack.*;
 import cc3002.energy.*;
+import cc3002.trainer.ITrainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,18 +39,24 @@ public abstract class AbstractPokemon implements IPokemon {
      */
     private IAttack selectedAttack;
 
+    /**
+     * The id of the pokemon in the pokedex.
+     */
+    private int id;
+
     /** Abstract constructor for the IPokemon type. It needs to be specified with the minimal definition of a
      * pokemon.
      * @param hp Hit points of the pokemon.
      * @param name Name of the pokemon.
      * @param attacks Attacks of the pokemon.
      */
-    AbstractPokemon(int hp, String name, ArrayList<IAttack> attacks){
+    AbstractPokemon(int hp, String name, int id, ArrayList<IAttack> attacks){
         this.hp = hp;
         this.name = name;
         this.attacks = attacks;
         this.selectAttack(0);
         this.energyAvailable =  new HashMap<>();
+        this.id = id;
 
         this.energyAvailable.put("GrassEnergies", new ArrayList<>());
         this.energyAvailable.put("FireEnergies", new ArrayList<>());
@@ -65,6 +72,20 @@ public abstract class AbstractPokemon implements IPokemon {
     @Override
     public String getName(){
         return this.name;
+    }
+
+    @Override
+    public String getInfo() {
+        return "Nombre: " + this.getName() + ", Tipo: Pokemon, Id: " + this.getId();
+    }
+
+    /**
+     * Method that adds this pokemon to some trainer bench.
+     * @param trainer The trainer with the bench where this pokemon will be added.
+     */
+    @Override
+    public void play(ITrainer trainer) {
+        trainer.addPokemon(this);
     }
 
     /** Getter for the hit points of the pokemon.
@@ -92,6 +113,15 @@ public abstract class AbstractPokemon implements IPokemon {
     @Override
     public boolean isDead() {
         return hp <= 0;
+    }
+
+    /**
+     * Getter for the id of the pokemon.
+     * @return The id of the pokemon
+     */
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     /** Getter for the available energies.

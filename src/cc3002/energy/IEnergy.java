@@ -1,6 +1,6 @@
 package cc3002.energy;
 
-import cc3002.ICard;
+import cc3002.card.ICard;
 import cc3002.pokemon.IPokemon;
 
 /**
