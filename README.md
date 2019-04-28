@@ -5,7 +5,9 @@ Este proyecto refiere a la creación del juego pokemon TCG. Este corresponde a u
 
 Para clonar el repositorio debe dirigirse desde consola a su directorio favorito y ejecutar:
 
-git clone 
+'''
+git clone https://github.com/rudyn2/pokemon.git
+'''
 
 ### Prerequisitos
 
