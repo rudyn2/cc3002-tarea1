@@ -1,5 +1,5 @@
 # Pokemon TCG
-Este proyecto refiere a la creación del juego pokemon TCG. Este juego corresponde a un juego de mesa de trading de cartas pokemon. Se busca crear una implementación completa del juego haciendo uso de técnicas de diseño y programación entregadas bajo el marco del curso CC3002: Metodologías y diseño de programación dictado por el departamento de ciencias de la computación de la Universidad de Chile. A lo largo de su desarrollo se implementarán diversos tipos de lógicas a diversos niveles bajo altos estándares en cuanto a diseño, documentación y otros. 
+Este proyecto refiere a la creación del juego pokemon TCG. Este corresponde a un juego de mesa de trading de cartas pokemon. Se busca crear una implementación completa del juego haciendo uso de técnicas de diseño y programación entregadas bajo el marco del curso CC3002: Metodologías y diseño de programación dictado por el departamento de ciencias de la computación de la Universidad de Chile. A lo largo de su desarrollo se implementarán diversos tipos de lógicas a diversos niveles bajo altos estándares en cuanto a diseño, documentación y otros. 
 
 ## Primeros pasos
 
