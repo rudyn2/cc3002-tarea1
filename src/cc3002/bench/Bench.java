@@ -77,6 +77,11 @@ public class Bench implements IBench {
         }
     }
 
+    @Override
+    public IPokemon pop() {
+        return this.bench.remove(this.bench.size()-1);
+    }
+
     /**
      * Method that counts the number of pokemon's that are in the bench.
      *
@@ -95,7 +100,7 @@ public class Bench implements IBench {
     public void visualize() {
         if (this.count() > 0){
             for (int i = 0; i < this.count(); i++){
-                System.out.println(i + ".- " + this.bench.get(i).getName() + " (ID: ");
+                System.out.println(i + ".- " + this.bench.get(i).getName() + " (ID: " + this.bench.get(i).getId() + ")");
             }
         } else {
             System.out.println("La banca está vacía.");

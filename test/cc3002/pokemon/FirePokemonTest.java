@@ -24,7 +24,7 @@ class FirePokemonTest {
 
 
     private ArrayList<IAttack> fireAttacks;
-    private ArrayList<IAttack> water_attacks;
+    private ArrayList<IAttack> waterAttacks;
 
     private FirePokemon charmander;
     private WaterPokemon squirtle;
@@ -49,11 +49,11 @@ class FirePokemonTest {
 
         // charmander attacks assignation
         fireAttacks = new ArrayList<>(Arrays.asList(fireAttack, supremeFireAttack));
-        charmander = new FirePokemon(100, "Charmander", fireAttacks);
+        charmander = new FirePokemon(100, "Charmander", 1, fireAttacks);
 
         // squirtle attacks assignation
-        water_attacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", water_attacks);
+        waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
+        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
 
         // energy creation
         fireEnergy = new FireEnergy("Energía de fuego", 40);

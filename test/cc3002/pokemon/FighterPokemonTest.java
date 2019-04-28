@@ -50,11 +50,11 @@ class FighterPokemonTest {
 
         // machoke attacks assignation
         fighterAttacks = new ArrayList<>(Arrays.asList(fighterAttack, supremeFighterAttack));
-        machoke = new FighterPokemon(100, "Machoke", fighterAttacks);
+        machoke = new FighterPokemon(100, "Machoke", 1, fighterAttacks);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", waterAttacks);
+        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
 
         // energy creation
         fighterEnergy = new FighterEnergy("Energía para guerreros", 40);

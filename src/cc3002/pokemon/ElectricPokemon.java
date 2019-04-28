@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class ElectricPokemon extends AbstractPokemon {
 
-    public ElectricPokemon(int hp, String name, ArrayList<IAttack> attacks) {
-        super(hp, name, attacks);
+    public ElectricPokemon(int hp, String name, int id, ArrayList<IAttack> attacks) {
+        super(hp, name, id, attacks);
     }
 
     @Override

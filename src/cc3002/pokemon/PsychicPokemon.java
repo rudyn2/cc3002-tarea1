@@ -7,8 +7,8 @@ import cc3002.attack.PsychicAttack;
 import java.util.ArrayList;
 
 public class PsychicPokemon extends AbstractPokemon {
-    PsychicPokemon(int hp, String name, ArrayList<IAttack> attacks) {
-        super(hp, name, attacks);
+    public PsychicPokemon(int hp, String name, int id, ArrayList<IAttack> attacks) {
+        super(hp, name, id, attacks);
     }
 
     @Override

@@ -52,6 +52,15 @@ public interface ITrainer {
      */
     void addPokemon(IPokemon pokemon);
 
+
+    /**
+     * Method that changes the active pokemon from someone chose between the available pokemon's in the hand.
+     * If it's some pokemon as an active pokemon it will go to the bench, if the bench is full it will be to
+     * the hand.
+     * @param option The pokemon that will be the new active pokemon.
+     */
+    void changeActivePokemonFromTheHand(int option);
+
     /**
      * Method that receives an attack from other trainer. Its active pokemon will receive
      * the attack from the active pokemon of the other trainer.

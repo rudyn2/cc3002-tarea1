@@ -51,11 +51,11 @@ class PsychicPokemonTest {
 
         // mewtwo attacks assignation
         psychicAttacks = new ArrayList<>(Arrays.asList(psychicAttack, supremePsychicAttack));
-        mewtwo = new PsychicPokemon(100, "Mewtwo", psychicAttacks);
+        mewtwo = new PsychicPokemon(100, "Mewtwo", 1, psychicAttacks);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", waterAttacks);
+        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
 
         // energy creation
         psychicEnergy = new PsychicEnergy("Energía mental", 40);

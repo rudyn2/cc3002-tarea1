@@ -1,5 +1,6 @@
 package cc3002.trainer;
 
+import cc3002.bench.Bench;
 import cc3002.bench.IBench;
 import cc3002.card.ICard;
 import cc3002.pokemon.IPokemon;
@@ -12,6 +13,7 @@ public class Trainer implements ITrainer {
     private ArrayList<ICard> hand;
     private IPokemon activePokemon;
     private IBench bench;
+
 
     /**
      * Generic constructor for the class Trainer. It will initialize a trainer with the minimal amount of
@@ -26,6 +28,16 @@ public class Trainer implements ITrainer {
         this.hand = hand;
         this.activePokemon = activePokemon;
         this.bench = bench;
+    }
+
+    /**
+     * Generic constructor for the class Trainer. It will initialize a simplified
+     * trainer with some information required to begin some game.
+     * @param name The name of the trainer
+     * @param hand The initial hand.
+     */
+    public Trainer(String name, ArrayList<ICard> hand) {
+        this(name, hand, null, new Bench());
     }
 
     /**
@@ -78,6 +90,7 @@ public class Trainer implements ITrainer {
     public void playCard(int option) {
         if(this.isValidOption(option)){
             this.hand.get(option).play(this);
+            this.hand.remove(option);
         } else {
             System.out.println("Debe especificar una jugada válida.");
         }
@@ -95,12 +108,45 @@ public class Trainer implements ITrainer {
     }
 
     /**
-     * Method that receives the attack from other trainer.
-     * @param trainer The trainer that makes the attack.
+     * Method that changes the active pokemon from someone chose between the available pokemon's in the hand.
+     * If it's some pokemon as an active pokemon it will go to the bench, if the bench is full it will be to
+     * the hand.
+     * @param option The pokemon that will be the new active pokemon.
      */
     @Override
-    public void receiveAttack(ITrainer trainer) {
-        trainer.getActivePokemon().attack(this.activePokemon);
+    public void changeActivePokemonFromTheHand(int option) {
+        if(this.isValidOption(option)){
+            if (!this.bench.isEmpty() && !this.bench.isFull()){
+                this.bench.add(this.getActivePokemon());
+            } else {
+                this.hand.add(this.getActivePokemon());
+            }
+            // The player needs to see the available's options so it has to be good. Other case
+            // the casting will fail.
+            this.activePokemon = (IPokemon)this.hand.remove(option);
+        }
+    }
+
+    /**
+     * Method that receives the attack from other enemyTrainer.
+     * @param enemyTrainer The enemyTrainer that makes the attack.
+     */
+    @Override
+    public void receiveAttack(ITrainer enemyTrainer) {
+        // If it's alive attack
+        if (this.activePokemon != null && !this.activePokemon.isDead()){
+            enemyTrainer.getActivePokemon().attack(this.activePokemon);
+        } else {
+            // It it is not alive and exists someone, change it and attack it
+            if (!this.bench.isEmpty()){
+                this.activePokemon = this.bench.pop();
+                enemyTrainer.getActivePokemon().attack(this.activePokemon);
+            }
+        }
+        // If after the attack the active pokemon dies change it for someone in the bench
+        if (this.activePokemon.isDead() && !this.bench.isEmpty())
+            this.activePokemon = this.bench.pop();
+
     }
 
     /**
@@ -121,7 +167,8 @@ public class Trainer implements ITrainer {
     public void visualizeHand() {
         if (this.hand.size() > 0){
             for(int i = 0; i < this.hand.size(); i ++){
-                System.out.println(i + ".- " + this.hand.get(i).getInfo());
+                if (this.hand.get(i) != null)
+                    System.out.println(i + ".- " + this.hand.get(i).getInfo());
             }
         }
 
@@ -134,7 +181,7 @@ public class Trainer implements ITrainer {
      */
     @Override
     public boolean isOver() {
-        return activePokemon.isDead() && bench.isEmpty();
+        return (activePokemon == null || activePokemon.isDead()) && bench.isEmpty() ;
     }
 
 
@@ -147,4 +194,5 @@ public class Trainer implements ITrainer {
     private boolean isValidOption(int option){
         return (option < this.hand.size()) && (option >= 0);
     }
+
 }

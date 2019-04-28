@@ -50,11 +50,11 @@ class ElectricPokemonTest {
 
         // pikachu attacks assignation
         electricAttacks = new ArrayList<>(Arrays.asList(electricAttack, supremeElectricAttack));
-        pikachu = new ElectricPokemon(100, "Pikachu", electricAttacks);
+        pikachu = new ElectricPokemon(100, "Pikachu", 1, electricAttacks);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", waterAttacks);
+        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
 
         // energy creation
         electricEnergy = new ElectricEnergy("Energía eléctrica", 40);

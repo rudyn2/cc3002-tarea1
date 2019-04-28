@@ -30,6 +30,12 @@ public interface IBench {
     IPokemon replace(int option, IPokemon pokemon);
 
     /**
+     * Method that returns and remove the last pokemon in the bench.
+     * @return The last pokemon in the bench.
+     */
+    IPokemon pop();
+
+    /**
      * Method that counts the number of pokemon's that are in the bench.
      * @return The number of pokemon's in the bench.
      */

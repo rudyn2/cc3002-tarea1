@@ -44,8 +44,8 @@ class WaterPokemonTest {
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        firstSquirtle = new WaterPokemon(100, "First Squirtle", waterAttacks);
-        secondSquirtle = new WaterPokemon(100, "Second Squirtle", waterAttacks);
+        firstSquirtle = new WaterPokemon(100, "First Squirtle",1, waterAttacks);
+        secondSquirtle = new WaterPokemon(100, "Second Squirtle", 2, waterAttacks);
 
         // energy creation
         waterEnergy = new WaterEnergy("Energía de agua", 40);

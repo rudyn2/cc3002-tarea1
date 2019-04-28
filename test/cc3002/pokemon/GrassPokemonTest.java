@@ -51,11 +51,11 @@ class GrassPokemonTest {
 
         // bulbasaur attacks assignation
         grassAttacks = new ArrayList<>(Arrays.asList(grassAttack, supremeGrassAttack));
-        bulbasaur = new GrassPokemon(100, "Bulbasaur", grassAttacks);
+        bulbasaur = new GrassPokemon(100, "Bulbasaur", 1, grassAttacks);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", waterAttacks);
+        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
 
         // energy creation
         grassEnergy = new GrassEnergy("Energía de planta", 40);
