@@ -6,6 +6,7 @@ import cc3002.pokemon.IPokemon;
  * The interface for a generic bench. The main aim of this interface is to define a
  * bench that helps a trainer to take a decision over its inactive pokemon. A trainer
  * should be able to add, remove, change, visualize, count or replace a pokemon in the bench.
+ * @author Rudy García Alvarado
  */
 public interface IBench {
 

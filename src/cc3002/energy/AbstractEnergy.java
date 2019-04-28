@@ -7,6 +7,7 @@ import cc3002.trainer.ITrainer;
  * order to make a interaction between attacks and pokemon. The game logic says that a pokemon needs
  * energy to perform attacks. This class implements some common methods and an abstract constructor
  * for a generic energy.
+ * @author Rudy García Alvarado
  */
 public abstract class AbstractEnergy implements IEnergy {
 

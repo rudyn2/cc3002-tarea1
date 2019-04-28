@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * the attacks of its pokemons and the bench. A Trainer must have a name, a hand with cards, an active pokemon
  * (it could be nothing if doesn't exists a pokemon that can take place) and a bench with pokemons. The minimal
  * features are explained with more details below.
+ * @author Rudy García Alvarado
  */
 public class Trainer implements ITrainer {
 

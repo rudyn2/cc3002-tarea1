@@ -4,6 +4,11 @@ import cc3002.pokemon.IPokemon;
 
 import java.util.ArrayList;
 
+/**
+ * Generic class for a bench made of pokemons. This class can control the behavior of a bench with pokemons.
+ * It can add, remove, replace, pop, get info and some basic features with the constrains of the game.
+ * @author Rudy García Alvarado
+ */
 public class Bench implements IBench {
 
     /**
