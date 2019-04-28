@@ -7,11 +7,29 @@ import cc3002.pokemon.IPokemon;
 
 import java.util.ArrayList;
 
+/**
+ * Generic class that represents a Trainer in the pokemon game. The trainer administers the use of the cards,
+ * the attacks of its pokemons and the bench. A Trainer must have a name, a hand with cards, an active pokemon
+ * (it could be nothing if doesn't exists a pokemon that can take place) and a bench with pokemons. The minimal
+ * features are explained with more details below.
+ */
 public class Trainer implements ITrainer {
 
+    /**
+     * The name of the trainer
+     */
     private String name;
+    /**
+     * An ArrayList with the cards of the hand of the Trainer.
+     */
     private ArrayList<ICard> hand;
+    /**
+     * The active pokemon of the trainer
+     */
     private IPokemon activePokemon;
+    /**
+     * The bench of the trainer.
+     */
     private IBench bench;
 
 
