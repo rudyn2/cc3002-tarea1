@@ -23,6 +23,8 @@ Para ejecutar los tests debe dirigirse a la carpeta pokemon/test/cc3002/ y podr�
 - card
 - attack
 
+Cada uno de los tests posee >90% de coverage por paquete.
+
 ## Ejecución
 
 Solo clonar e instalar java para la ejecución de los tests. Todavía no hay frameworks avanzados que se utilicen en el repositorio. No hay ningún método principal que ejecutar
