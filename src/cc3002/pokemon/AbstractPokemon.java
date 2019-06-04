@@ -103,6 +103,8 @@ public abstract class AbstractPokemon implements IPokemon {
     public void makeDamage(int damage) {
         if (damage >= 0) {
             this.hp -= damage;
+            if (this.hp <= 0)
+                this.hp = 0;
         }
 
     }
@@ -133,11 +135,11 @@ public abstract class AbstractPokemon implements IPokemon {
     }
 
     /** Getter for the pokemon attacks.
-     * @return An ArrayList with the pokemon attacks.
+     * @return An ArrayList with a copy of the pokemon attacks.
      */
     @Override
     public ArrayList<IAttack> getAttacks(){
-        return this.attacks;
+        return new ArrayList<>(this.attacks);
     }
 
     /** Getter for the selected attack.
@@ -155,9 +157,7 @@ public abstract class AbstractPokemon implements IPokemon {
      */
     @Override
     public void selectAttack(int option) {
-        if (option < 0 || option > this.getAttacks().size()-1){
-            System.out.println("Opción de ataque no válida!");
-        } else {
+        if (!(option < 0 || option > this.getAttacks().size()-1)){
             this.selectedAttack = this.attacks.get(option);
         }
 
@@ -167,35 +167,35 @@ public abstract class AbstractPokemon implements IPokemon {
      * @param attack A FireAttack.
      */
     public void receiveFireAttack(FireAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to make damage to this pokemon from a WaterAttack.
      * @param attack A WaterAttack.
      */
     public void receiveWaterAttack(WaterAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to make damage to this pokemon from a GrassAttack.
      * @param attack A GrassAttack.
      */
     public void receiveGrassAttack(GrassAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to make damage to this pokemon from a ElectricAttack.
      * @param attack A ElectricAttack.
      */
     public void receiveElectricAttack(ElectricAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to make damage to this pokemon from a PsychicAttack.
      * @param attack A PsychicAttack.
      */
     public void receivePsychicAttack(PsychicAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
 
     }
 
@@ -203,14 +203,14 @@ public abstract class AbstractPokemon implements IPokemon {
      * @param attack A FighterAttack.
      */
     public void receiveFighterAttack(FighterAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to make damage to this pokemon from a NormalAttack.
      * @param attack A NormalAttack.
      */
     public void receiveNormalAttack(NormalAttack attack) {
-        this.hp -= attack.getBaseDamage();
+        makeDamage(attack.getBaseDamage());
     }
 
     /** Method to assign a FireEnergy to this pokemon.

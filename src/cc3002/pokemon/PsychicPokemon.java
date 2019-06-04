@@ -15,7 +15,6 @@ public class PsychicPokemon extends AbstractPokemon {
     public void attack(IPokemon pokemon) {
         if (this.getSelectedAttack().checkPsychicEnergy(this)) {
             this.getSelectedAttack().attack(pokemon);
-            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
         }
     }
 

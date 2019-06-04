@@ -118,8 +118,8 @@ class FighterPokemonTest {
         electricAttack.attack(machoke);
         assertEquals(35, machoke.getHp());
         fighterAttack.attack(machoke);
-        assertEquals(-5, machoke.getHp());
+        assertEquals(0, machoke.getHp());
         psychicAttack.attack(machoke);
-        assertEquals(-25, machoke.getHp());
+        assertEquals(0, machoke.getHp());
     }
 }

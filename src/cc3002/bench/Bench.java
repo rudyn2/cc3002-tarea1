@@ -59,8 +59,6 @@ public class Bench implements IBench {
     public void remove(int option) {
         if (this.isValidOption(option)) {
             this.bench.remove(option);
-        } else {
-            System.out.println("Debe especificar una opción válida.");
         }
     }
 
@@ -77,7 +75,6 @@ public class Bench implements IBench {
         if (this.isValidOption(option)){
             return this.bench.set(option, pokemon);
         } else {
-            System.out.println("Debe especificar una opción válida.");
             return null;
         }
     }
@@ -133,6 +130,12 @@ public class Bench implements IBench {
         return this.count() == 5;
     }
 
+
+    /**
+     * Method that checks if the chosen option is valid.
+     * @param option An integer with the option.
+     * @return True if the user has chosen a pokemon who really exists in this bench.
+     */
     private boolean isValidOption(int option){
         return (option >= 0) && (option < this.count());
     }

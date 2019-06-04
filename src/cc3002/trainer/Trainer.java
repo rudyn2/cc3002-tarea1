@@ -110,8 +110,6 @@ public class Trainer implements ITrainer {
         if(this.isValidOption(option)){
             this.hand.get(option).play(this);
             this.hand.remove(option);
-        } else {
-            System.out.println("Debe especificar una jugada válida.");
         }
 
     }

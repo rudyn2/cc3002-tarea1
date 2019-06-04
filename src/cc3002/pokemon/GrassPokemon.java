@@ -15,7 +15,6 @@ public class GrassPokemon extends AbstractPokemon {
     public void attack(IPokemon pokemon) {
         if (this.getSelectedAttack().checkGrassEnergy(this)) {
             this.getSelectedAttack().attack(pokemon);
-            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
         }
     }
 

@@ -20,9 +20,6 @@ public class FirePokemon extends AbstractPokemon{
     public void attack(IPokemon pokemon) {
         if (this.getSelectedAttack().checkFireEnergy(this)) {
             this.getSelectedAttack().attack(pokemon);
-            System.out.println(this.getName() + " ha atacado a " + pokemon.getName());
-        } else {
-            System.out.println("Al parecer " + this.getName() + " no tiene suficiente energía!");
         }
     }
 
