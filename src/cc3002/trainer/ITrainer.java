@@ -1,7 +1,11 @@
 package cc3002.trainer;
 
+import cc3002.attack.IAbility;
+import cc3002.attack.ISkill;
 import cc3002.card.ICard;
 import cc3002.pokemon.IPokemon;
+import cc3002.trainercard.ITrainerCard;
+import cc3002.trainercard.Stadium;
 
 import java.util.ArrayList;
 
@@ -87,7 +91,14 @@ public interface ITrainer {
      */
     boolean isOver();
 
+    void drawCard();
+    void  discardCard(ICard card);
 
-    
+    void addAbilityQueue(IAbility ability);
+    void addTrainerCardQueue(ITrainerCard trainerCard);
 
+    void usePokemonAbility();
+    void usePokemonAttack(ITrainer targetTrainer);
+
+    ArrayList<ITrainerCard> getTrainerQueue();
 }

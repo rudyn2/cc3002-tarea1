@@ -1,15 +1,13 @@
 package cc3002.pokemon;
 
-import cc3002.attack.FighterAttack;
-import cc3002.attack.IAttack;
-import cc3002.attack.WaterAttack;
+import cc3002.attack.*;
 
 import java.util.ArrayList;
 
 public class ElectricPokemon extends AbstractPokemon {
 
-    public ElectricPokemon(int hp, String name, int id, ArrayList<IAttack> attacks) {
-        super(hp, name, id, attacks);
+    public ElectricPokemon(int hp, String name, int id, ArrayList<IAttack> attacks, ArrayList<IAbility> abilities) {
+        super(hp, name, id, attacks, abilities);
     }
 
     @Override
@@ -23,10 +21,8 @@ public class ElectricPokemon extends AbstractPokemon {
     }
 
     @Override
-    public void attack(IPokemon pokemon) {
-        if (this.getSelectedAttack().checkElectricEnergy(this)) {
-            this.getSelectedAttack().attack(pokemon);
-        }
+    public boolean checkEnergy() {
+        return this.getSelectedAttack().checkElectricEnergy(this);
     }
 
 }

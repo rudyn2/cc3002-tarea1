@@ -3,6 +3,8 @@ package cc3002.pokemon;
 import cc3002.attack.*;
 import cc3002.card.ICard;
 import cc3002.energy.*;
+import cc3002.game.GameDriver;
+import cc3002.trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +39,8 @@ public interface IPokemon extends ICard{
      */
     int getId();
 
+    boolean checkEnergy();
+
 
     /** Getter for the available energies.
      * @return A HashMap which keys are the energy type and its values are a list with the available energies.
@@ -46,22 +50,23 @@ public interface IPokemon extends ICard{
     /** Getter for the pokemon attacks.
      * @return An ArrayList with the pokemon IAttack's.
      */
-    ArrayList<IAttack> getAttacks();
+    ArrayList<ISkill> getAbilities();
 
     /** Method to select an attack from a position.
      * @param option Integer position of the wanted attack.
      */
-    void selectAttack(int option);
-
+    void selectAbility(int option);
 
     /** Method to attack a pokemon.
-     * @param pokemon Pokemon that will be attacked.
+     * @param target Pokemon that will be attacked.
      */
-    void attack(IPokemon pokemon);
+    void useAttack(IPokemon target);
+    IAbility useAbility();
 
     /** Getter to the pokemon selected attack.
      * @return The selected attack.
      */
+    IAbility getSelectedAbility();
     IAttack getSelectedAttack();
 
     /** Method to receive a FireEnergy to and include it into the availableEnergy.
@@ -131,6 +136,4 @@ public interface IPokemon extends ICard{
      * @param waterAttack A WaterAttack.
      */
     void receiveWaterAttack(WaterAttack waterAttack);
-
-
 }

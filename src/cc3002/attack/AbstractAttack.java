@@ -1,7 +1,9 @@
 package cc3002.attack;
 
 import cc3002.energy.IEnergy;
+import cc3002.game.GameDriver;
 import cc3002.pokemon.*;
+import cc3002.visitor.IVisitor;
 
 import java.util.ArrayList;
 
@@ -59,6 +61,7 @@ public abstract class AbstractAttack implements IAttack {
     public String getName() {
         return this.name;
     }
+
 
     /**
      * Getter for the cost of the attack.
@@ -168,5 +171,6 @@ public abstract class AbstractAttack implements IAttack {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("WaterEnergies");
         return this.countEnergy(energies) > this.cost;
     }
+
 
 }

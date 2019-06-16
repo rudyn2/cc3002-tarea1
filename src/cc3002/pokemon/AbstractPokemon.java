@@ -2,7 +2,9 @@ package cc3002.pokemon;
 
 import cc3002.attack.*;
 import cc3002.energy.*;
+import cc3002.game.GameDriver;
 import cc3002.trainer.ITrainer;
+import cc3002.trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +26,9 @@ public abstract class AbstractPokemon implements IPokemon {
      */
     private String name;
     /**
-     * Available attacks of the pokemon.
+     * Available abilities of the pokemon.
      */
+    private ArrayList<IAbility> abilities;
     private ArrayList<IAttack> attacks;
     /**
      * Available energies of the pokemon. Each key store a list with some type of energy.
@@ -35,26 +38,29 @@ public abstract class AbstractPokemon implements IPokemon {
     public HashMap<String, ArrayList<IEnergy>> energyAvailable;
     /**
      * Selected attack of the pokemon. The pokemon will attack with the selected attack. And it could be
-     * changed from one of the attacks.
+     * changed from one of the abilities.
      */
     private IAttack selectedAttack;
+    private IAbility selectedAbility;
 
     /**
      * The id of the pokemon in the pokedex.
      */
     private int id;
+    private boolean isAbility = false;
 
     /** Abstract constructor for the IPokemon type. It needs to be specified with the minimal definition of a
      * pokemon.
      * @param hp Hit points of the pokemon.
      * @param name Name of the pokemon.
-     * @param attacks Attacks of the pokemon.
+     * @param abilities Attacks of the pokemon.
      */
-    AbstractPokemon(int hp, String name, int id, ArrayList<IAttack> attacks){
+    AbstractPokemon(int hp, String name, int id, ArrayList<IAttack> attacks, ArrayList<IAbility> abilities){
         this.hp = hp;
         this.name = name;
         this.attacks = attacks;
-        this.selectAttack(0);
+        this.abilities = abilities;
+        this.selectAbility(0);
         this.energyAvailable =  new HashMap<>();
         this.id = id;
 
@@ -80,7 +86,7 @@ public abstract class AbstractPokemon implements IPokemon {
     }
 
     /**
-     * Method that adds this pokemon to some trainer bench.
+     * Method that adds this pokemon to the trainer bench.
      * @param trainer The trainer with the bench where this pokemon will be added.
      */
     @Override
@@ -134,31 +140,45 @@ public abstract class AbstractPokemon implements IPokemon {
         return this.energyAvailable;
     }
 
-    /** Getter for the pokemon attacks.
-     * @return An ArrayList with a copy of the pokemon attacks.
+    /** Getter for the pokemon abilities.
+     * @return An ArrayList with a copy of the pokemon abilities.
      */
     @Override
-    public ArrayList<IAttack> getAttacks(){
-        return new ArrayList<>(this.attacks);
+    public ArrayList<ISkill> getAbilities(){
+        return new ArrayList<>(this.abilities);
     }
 
     /** Getter for the selected attack.
      * @return The selected pokemon IAttack.
      */
     @Override
-    public IAttack getSelectedAttack() {
-        return selectedAttack;
+    public IAbility getSelectedAbility() {
+        return this.selectedAbility;
     }
 
-    /** Method for select an attack from the pokemon attacks. The option is a positional positive integer.
+    public IAttack getSelectedAttack(){
+        return this.selectedAttack;
+    }
+
+
+    public void useAttack(IPokemon target){
+        if (this.checkEnergy())
+            this.getSelectedAttack().attack(target);
+    }
+
+    public IAbility useAbility(){
+        return this.getSelectedAbility();
+    }
+
+    /** Method for select an attack from the pokemon abilities. The option is a positional positive integer.
      * If the selection is the attack 0 the selectedAttack will be replaced with the
-     *  0th attack from the pokemon attacks.
+     *  0th attack from the pokemon abilities.
      * @param option Integer with the positional wanted attack.
      */
     @Override
-    public void selectAttack(int option) {
-        if (!(option < 0 || option > this.getAttacks().size()-1)){
-            this.selectedAttack = this.attacks.get(option);
+    public void selectAbility(int option) {
+        if (!(option < 0 || option > this.getAbilities().size()-1)){
+            this.selectedAbility = this.abilities.get(option);
         }
 
     }
@@ -176,6 +196,7 @@ public abstract class AbstractPokemon implements IPokemon {
     public void receiveWaterAttack(WaterAttack attack) {
         makeDamage(attack.getBaseDamage());
     }
+
 
     /** Method to make damage to this pokemon from a GrassAttack.
      * @param attack A GrassAttack.

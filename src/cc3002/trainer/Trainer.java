@@ -1,9 +1,14 @@
 package cc3002.trainer;
 
+import cc3002.attack.IAbility;
+import cc3002.attack.ISkill;
 import cc3002.bench.Bench;
 import cc3002.bench.IBench;
 import cc3002.card.ICard;
+import cc3002.deck.Deck;
+import cc3002.deck.IDeck;
 import cc3002.pokemon.IPokemon;
+import cc3002.trainercard.ITrainerCard;
 
 import java.util.ArrayList;
 
@@ -33,6 +38,11 @@ public class Trainer implements ITrainer {
      */
     private IBench bench;
 
+    private IDeck discardDeck;
+    private IDeck deck;
+    private ArrayList<IAbility> abilitiesToPlay = new ArrayList<>();
+    private ArrayList<ITrainerCard> trainerCardsToPlay = new ArrayList<>();
+
 
     /**
      * Generic constructor for the class Trainer. It will initialize a trainer with the minimal amount of
@@ -42,11 +52,13 @@ public class Trainer implements ITrainer {
      * @param activePokemon The initial active pokemon.
      * @param bench An ArrayList with the initial bench.
      */
-    public Trainer(String name, ArrayList<ICard> hand, IPokemon activePokemon, IBench bench) {
+    public Trainer(String name, ArrayList<ICard> hand, IPokemon activePokemon, IBench bench, IDeck deck) {
         this.name = name;
         this.hand = hand;
         this.activePokemon = activePokemon;
         this.bench = bench;
+        this.deck = deck;
+        this.discardDeck = new Deck(new ArrayList<>());
     }
 
     /**
@@ -55,8 +67,8 @@ public class Trainer implements ITrainer {
      * @param name The name of the trainer
      * @param hand The initial hand.
      */
-    public Trainer(String name, ArrayList<ICard> hand) {
-        this(name, hand, null, new Bench());
+    public Trainer(String name, ArrayList<ICard> hand, IDeck deck) {
+        this(name, hand, null, new Bench(), deck);
     }
 
     /**
@@ -76,7 +88,7 @@ public class Trainer implements ITrainer {
      */
     @Override
     public void selectAttackOfActivePokemon(int option) {
-        this.getActivePokemon().selectAttack(option);
+        this.getActivePokemon().selectAbility(option);
     }
 
     /**
@@ -152,12 +164,12 @@ public class Trainer implements ITrainer {
     public void receiveAttack(ITrainer enemyTrainer) {
         // If it's alive attack
         if (this.activePokemon != null && !this.activePokemon.isDead()){
-            enemyTrainer.getActivePokemon().attack(this.activePokemon);
+            enemyTrainer.getActivePokemon().useAttack(this.activePokemon);
         } else {
-            // It it is not alive and exists someone, change it and attack it
+            // If it is not alive and exists someone, change it and attack it
             if (!this.bench.isEmpty()){
                 this.activePokemon = this.bench.pop();
-                enemyTrainer.getActivePokemon().attack(this.activePokemon);
+                enemyTrainer.getActivePokemon().useAttack(this.activePokemon);
             }
         }
         // If after the attack the active pokemon dies change it for someone in the bench
@@ -173,7 +185,7 @@ public class Trainer implements ITrainer {
      */
     @Override
     public ArrayList<ICard> getHand() {
-        return this.hand;
+        return new ArrayList<>(this.hand);
     }
 
     /**
@@ -202,6 +214,46 @@ public class Trainer implements ITrainer {
     }
 
 
+    @Override
+    public void drawCard() {
+        hand.add(this.deck.pop());
+    }
+
+    @Override
+    public void discardCard(ICard card) {
+        hand.remove(card);
+    }
+
+    // Just some methods can add cards to cards to play array. This array will control
+    // the execution of the effects in the controller
+    @Override
+    public void addAbilityQueue(IAbility ability) {
+        this.abilitiesToPlay.add(ability);
+    }
+
+    @Override
+    public void addTrainerCardQueue(ITrainerCard trainerCard) {
+        this.trainerCardsToPlay.add(trainerCard);
+    }
+
+    @Override
+    public void usePokemonAbility() {
+        IPokemon user = this.getActivePokemon();
+        this.addAbilityQueue(user.useAbility());
+    }
+
+    @Override
+    public void usePokemonAttack(ITrainer targetTrainer) {
+        IPokemon user = this.getActivePokemon();
+        IPokemon target = targetTrainer.getActivePokemon();
+        user.useAttack(target);
+    }
+
+    @Override
+    public ArrayList<ITrainerCard> getTrainerQueue() {
+        return trainerCardsToPlay;
+    }
+
 
     /**
      * Method that checks if the option selected is a valid option (if that card is available).
@@ -211,5 +263,6 @@ public class Trainer implements ITrainer {
     private boolean isValidOption(int option){
         return (option < this.hand.size()) && (option >= 0);
     }
+
 
 }

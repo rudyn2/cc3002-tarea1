@@ -1,5 +1,6 @@
 package cc3002.pokemon;
 
+import cc3002.attack.IAbility;
 import cc3002.attack.IAttack;
 import cc3002.attack.WaterAttack;
 
@@ -7,8 +8,8 @@ import java.util.ArrayList;
 
 public class FirePokemon extends AbstractPokemon{
 
-    public FirePokemon(int hp, String name, int id, ArrayList<IAttack> attacks){
-        super(hp, name, id, attacks);
+    public FirePokemon(int hp, String name, int id, ArrayList<IAttack> attacks, ArrayList<IAbility> abilities) {
+        super(hp, name, id, attacks, abilities);
     }
 
     @Override
@@ -17,10 +18,8 @@ public class FirePokemon extends AbstractPokemon{
     }
 
     @Override
-    public void attack(IPokemon pokemon) {
-        if (this.getSelectedAttack().checkFireEnergy(this)) {
-            this.getSelectedAttack().attack(pokemon);
-        }
+    public boolean checkEnergy() {
+        return this.getSelectedAttack().checkFireEnergy(this);
     }
 
 
