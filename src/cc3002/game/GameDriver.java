@@ -11,6 +11,11 @@ import cc3002.visitor.SpellVisitor;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Class that control the state of the game. It contains a lot of methods that
+ * can execute the differents options that a trainer can have in a normal match.
+ * It is focused to be a controller of the game.
+ */
 public class GameDriver {
 
     private boolean isOver;
@@ -81,8 +86,13 @@ public class GameDriver {
 
     }
 
-    public ITrainer getActiveTrainer(){ return this.activeTrainer;}
-    public ITrainer getInactiveTrainer() { return this.inactiveTrainer;}
+
+    public ITrainer getActiveTrainer(){
+        return this.activeTrainer;
+    }
+    public ITrainer getInactiveTrainer() {
+        return this.inactiveTrainer;
+    }
 
     public void setStadium(Stadium stadium) {
         this.stadiumCard = stadium;

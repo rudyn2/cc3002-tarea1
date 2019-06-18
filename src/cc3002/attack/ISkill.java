@@ -2,6 +2,10 @@ package cc3002.attack;
 
 import cc3002.pokemon.*;
 
+/**
+ * Common interface that defines a skill. For this game a skill can be an attack
+ * or an ability.
+ */
 public interface ISkill {
 
     /**
