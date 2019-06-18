@@ -120,12 +120,10 @@ public class Trainer implements ITrainer {
         return bench;
     }
 
-    @Override
     public boolean addBasicPokemon(IPokemon pokemon) {
         return this.bench.add(pokemon);
     }
 
-    @Override
     public boolean addS1Pokemon(IPokemon pokemon) {
         IPokemon p = bench.addS1Pokemon(pokemon);
         if (p == null) { return false; }
@@ -211,6 +209,15 @@ public class Trainer implements ITrainer {
 
     }
 
+
+    /**
+     * Method to visualize the elements of the bench (the pokemons in the field).
+     */
+    @Override
+    public void visualizeBench() {
+        bench.visualize();
+    }
+
     /**
      * Method that checks if the trainer has lost.
      *
@@ -234,7 +241,7 @@ public class Trainer implements ITrainer {
 
     // Just some methods can add cards to cards to play array. This array will control
     // the execution of the effects in the controller
-    @Override
+
     public boolean addAbilityQueue(IAbility ability) {
         this.abilitiesToPlay.add(ability);
         return true;

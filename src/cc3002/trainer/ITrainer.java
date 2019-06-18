@@ -90,6 +90,8 @@ public interface ITrainer {
      */
     void visualizeHand();
 
+    void visualizeBench();
+
     /**
      * Method that checks if the trainer has lost.
      * @return True if the trainer lost.
