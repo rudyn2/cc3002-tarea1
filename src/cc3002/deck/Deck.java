@@ -1,7 +1,6 @@
 package cc3002.deck;
 
 import cc3002.card.ICard;
-import cc3002.card.NullCard;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ public class Deck implements IDeck {
     public ICard pop() {
         if (!this.isEmpty())
             return deck.remove(deck.size()-1);
-        return new NullCard();
+        return null;
     }
 
     @Override

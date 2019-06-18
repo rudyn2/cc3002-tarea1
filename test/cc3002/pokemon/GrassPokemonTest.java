@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.GrassEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GrassPokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
 
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
@@ -28,11 +31,12 @@ class GrassPokemonTest {
     private ArrayList<IAttack> grassAttacks;
     private ArrayList<IAttack> waterAttacks;
 
-    private GrassPokemon bulbasaur;
-    private WaterPokemon squirtle;
+    private BasicGrassPokemon bulbasaur;
+    private BasicWaterPokemon squirtle;
 
     private GrassEnergy grassEnergy;
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -51,11 +55,15 @@ class GrassPokemonTest {
 
         // bulbasaur attacks assignation
         grassAttacks = new ArrayList<>(Arrays.asList(grassAttack, supremeGrassAttack));
-        bulbasaur = new GrassPokemon(100, "Bulbasaur", 1, grassAttacks);
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        bulbasaur = new BasicGrassPokemon(100, "Bulbasaur", 1, grassAttacks, basicAbilities);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         grassEnergy = new GrassEnergy("Energía de planta", 40);
@@ -66,17 +74,18 @@ class GrassPokemonTest {
 
     @Test
     void battleTest(){
-        bulbasaur.attack(squirtle);
+        bulbasaur.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 100);
 
         grassEnergy.assignEnergy(bulbasaur);
-        bulbasaur.attack(squirtle);
+        bulbasaur.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 80);
+        assertTrue(heal.checkGrassEnergy(bulbasaur));
 
         squirtle.selectAttack(1);
         assertEquals(supremeWaterAttack, squirtle.getSelectedAttack());
         waterEnergy.assignEnergy(squirtle);
-        squirtle.attack(bulbasaur);
+        squirtle.useAttack(bulbasaur);
         assertEquals(bulbasaur.getHp(), 80);
         assertFalse(bulbasaur.isDead());
     }

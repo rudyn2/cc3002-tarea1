@@ -14,7 +14,7 @@ public interface IBench {
      * Method to add a pokemon into the bench. Only if the bench isn't full.
      * @param pokemon The pokemon that will be added.
      */
-    void add(IPokemon pokemon);
+    boolean add(IPokemon pokemon);
 
     /**
      * Method to remove a pokemon from the bench.
@@ -61,4 +61,7 @@ public interface IBench {
     boolean isFull();
 
 
+    IPokemon addS1Pokemon(IPokemon pokemon);
+
+    IPokemon addS2Pokemon(IPokemon pokemon);
 }

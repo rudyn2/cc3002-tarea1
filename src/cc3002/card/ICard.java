@@ -25,6 +25,6 @@ public interface ICard {
      * Method that plays an ICard. If the card is a pokemon, the pokemon will be added to the bench.
      * Is the card is an energy the energy will be added to the trainer active pokemon.
      */
-    void play(ITrainer trainer);
+    boolean play(ITrainer trainer);
 
 }

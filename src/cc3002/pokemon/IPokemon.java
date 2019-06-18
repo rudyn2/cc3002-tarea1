@@ -3,8 +3,6 @@ package cc3002.pokemon;
 import cc3002.attack.*;
 import cc3002.card.ICard;
 import cc3002.energy.*;
-import cc3002.game.GameDriver;
-import cc3002.trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +25,7 @@ public interface IPokemon extends ICard{
      * @param damage An amount of damage.
      */
     void makeDamage(int damage);
-
+    void heal(int points);
     /** Check if the pokemon is death.
      * @return True if the pokemon is death.
      */
@@ -50,11 +48,13 @@ public interface IPokemon extends ICard{
     /** Getter for the pokemon attacks.
      * @return An ArrayList with the pokemon IAttack's.
      */
-    ArrayList<ISkill> getAbilities();
+    ArrayList<IAbility> getAbilities();
+    ArrayList<IAttack> getAttacks();
 
     /** Method to select an attack from a position.
      * @param option Integer position of the wanted attack.
      */
+    void selectAttack(int option);
     void selectAbility(int option);
 
     /** Method to attack a pokemon.
@@ -122,10 +122,6 @@ public interface IPokemon extends ICard{
      */
     void receiveGrassAttack(GrassAttack grassAttack);
 
-    /** Method to receive a NormalAttack and make damage to the pokemon.
-     * @param normalAttack A NormalAttack.
-     */
-    void receiveNormalAttack(NormalAttack normalAttack);
 
     /** Method to receive a PsychicAttack and make damage to the pokemon.
      * @param psychicAttack A PsychicAttack.
@@ -136,4 +132,9 @@ public interface IPokemon extends ICard{
      * @param waterAttack A WaterAttack.
      */
     void receiveWaterAttack(WaterAttack waterAttack);
+
+    boolean checkBasic();
+    boolean checkS1();
+    boolean checkS2();
+
 }

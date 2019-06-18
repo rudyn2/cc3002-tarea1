@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.ElectricEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ElectricPokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
 
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
@@ -27,11 +30,13 @@ class ElectricPokemonTest {
     private ArrayList<IAttack> electricAttacks;
     private ArrayList<IAttack> waterAttacks;
 
-    private ElectricPokemon pikachu;
-    private WaterPokemon squirtle;
+    private ElectricShock electricShock;
+    private BasicElectricPokemon pikachu;
+    private BasicWaterPokemon squirtle;
 
     private ElectricEnergy electricEnergy;
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -47,14 +52,19 @@ class ElectricPokemonTest {
         // special attack creation
         supremeElectricAttack = new ElectricAttack("Tormenta de fuego", "", 50, 12);
         supremeWaterAttack = new WaterAttack("Tsunami", "", 50, 10);
+        electricShock = new ElectricShock("Brutal shock", "Lo frie", 10, 3);
 
         // pikachu attacks assignation
-        electricAttacks = new ArrayList<>(Arrays.asList(electricAttack, supremeElectricAttack));
-        pikachu = new ElectricPokemon(100, "Pikachu", 1, electricAttacks);
+        electricAttacks = new ArrayList<>(Arrays.asList(electricAttack, supremeElectricAttack, electricShock));
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        pikachu = new BasicElectricPokemon(100, "Pikachu", 1, electricAttacks, basicAbilities);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         electricEnergy = new ElectricEnergy("Energía eléctrica", 40);
@@ -65,17 +75,25 @@ class ElectricPokemonTest {
 
     @Test
     void battleTest(){
-        pikachu.attack(squirtle);
+        pikachu.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 100);
 
         electricEnergy.assignEnergy(pikachu);
-        pikachu.attack(squirtle);
-        assertEquals(80, squirtle.getHp());
+        pikachu.useAttack(squirtle);
+
+        // Here pikachu uses Electric Shock
+        pikachu.selectAttack(2);
+        pikachu.useAttack(squirtle);
+        assertTrue(heal.checkElectricEnergy(pikachu));
+
+        // Pikachu has the heal ability
+        assertEquals(1, pikachu.getAbilities().size());
+
 
         squirtle.selectAttack(1);
         assertEquals(supremeWaterAttack, squirtle.getSelectedAttack());
         waterEnergy.assignEnergy(squirtle);
-        squirtle.attack(pikachu);
+        squirtle.useAttack(pikachu);
         assertEquals(50, pikachu.getHp());
         assertFalse(pikachu.isDead());
     }

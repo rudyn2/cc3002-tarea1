@@ -2,9 +2,7 @@ package cc3002.pokemon;
 
 import cc3002.attack.*;
 import cc3002.energy.*;
-import cc3002.game.GameDriver;
 import cc3002.trainer.ITrainer;
-import cc3002.trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +28,9 @@ public abstract class AbstractPokemon implements IPokemon {
      */
     private ArrayList<IAbility> abilities;
     private ArrayList<IAttack> attacks;
+
+
+
     /**
      * Available energies of the pokemon. Each key store a list with some type of energy.
      * There exists the next types of energies: ElectricEnergies, FireEnergies, FighterEnergies,
@@ -60,7 +61,7 @@ public abstract class AbstractPokemon implements IPokemon {
         this.name = name;
         this.attacks = attacks;
         this.abilities = abilities;
-        this.selectAbility(0);
+        this.selectAttack(0);
         this.energyAvailable =  new HashMap<>();
         this.id = id;
 
@@ -90,8 +91,8 @@ public abstract class AbstractPokemon implements IPokemon {
      * @param trainer The trainer with the bench where this pokemon will be added.
      */
     @Override
-    public void play(ITrainer trainer) {
-        trainer.addPokemon(this);
+    public boolean play(ITrainer trainer) {
+        return trainer.addBasicPokemon(this);
     }
 
     /** Getter for the hit points of the pokemon.
@@ -113,6 +114,11 @@ public abstract class AbstractPokemon implements IPokemon {
                 this.hp = 0;
         }
 
+    }
+
+    @Override
+    public void heal(int points) {
+        this.hp += points;
     }
 
     /** Method that checks if the pokemon is death.
@@ -144,8 +150,13 @@ public abstract class AbstractPokemon implements IPokemon {
      * @return An ArrayList with a copy of the pokemon abilities.
      */
     @Override
-    public ArrayList<ISkill> getAbilities(){
+    public ArrayList<IAbility> getAbilities(){
         return new ArrayList<>(this.abilities);
+    }
+
+    @Override
+    public ArrayList<IAttack> getAttacks(){
+        return new ArrayList<>(this.attacks);
     }
 
     /** Getter for the selected attack.
@@ -176,12 +187,27 @@ public abstract class AbstractPokemon implements IPokemon {
      * @param option Integer with the positional wanted attack.
      */
     @Override
+    public void selectAttack(int option) {
+        if (!(option < 0 || option > this.getAttacks().size()-1)){
+            this.selectedAttack = this.attacks.get(option);
+        }
+    }
+
+    @Override
     public void selectAbility(int option) {
         if (!(option < 0 || option > this.getAbilities().size()-1)){
             this.selectedAbility = this.abilities.get(option);
         }
-
     }
+
+    @Override
+    public boolean checkBasic() { return false;}
+
+    @Override
+    public boolean checkS1() { return false;}
+
+    @Override
+    public boolean checkS2() { return false;}
 
     /** Method to make damage to this pokemon from a FireAttack.
      * @param attack A FireAttack.
@@ -227,12 +253,6 @@ public abstract class AbstractPokemon implements IPokemon {
         makeDamage(attack.getBaseDamage());
     }
 
-    /** Method to make damage to this pokemon from a NormalAttack.
-     * @param attack A NormalAttack.
-     */
-    public void receiveNormalAttack(NormalAttack attack) {
-        makeDamage(attack.getBaseDamage());
-    }
 
     /** Method to assign a FireEnergy to this pokemon.
      * @param energy A FireEnergy.

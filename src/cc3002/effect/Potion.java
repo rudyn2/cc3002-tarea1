@@ -9,6 +9,7 @@ public class Potion extends InstantEffect {
 
     @Override
     public void execute() {
-
+        IPokemon p = this.getUser().getActivePokemon();
+        p.heal(10);
     }
 }

@@ -1,15 +1,19 @@
 package cc3002.attack;
 
+import cc3002.effect.Effect;
+import cc3002.effect.InstantEffect;
 import cc3002.pokemon.*;
 
 public abstract class AbstractAbility implements IAbility {
 
     private String description;
     private String name;
+    private InstantEffect effect;
 
-    public AbstractAbility(String description, String name) {
+    public AbstractAbility(String name, String description, InstantEffect effect) {
         this.description = description;
         this.name = name;
+        this.effect = effect;
     }
 
 
@@ -39,13 +43,13 @@ public abstract class AbstractAbility implements IAbility {
      * @return True if the FirePokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkFireEnergy(FirePokemon pokemon) {
+    public boolean checkFireEnergy(AbstractFirePokemon pokemon) {
         return true;
 
     }
 
     @Override
-    public boolean checkElectricEnergy(ElectricPokemon pokemon) {
+    public boolean checkElectricEnergy(AbstractElectricPokemon pokemon) {
         return true;
     }
 
@@ -55,7 +59,7 @@ public abstract class AbstractAbility implements IAbility {
      * @return True if the FighterPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkFighterEnergy(FighterPokemon pokemon) {
+    public boolean checkFighterEnergy(AbstractFighterPokemon pokemon) {
         return true;
     }
 
@@ -65,7 +69,7 @@ public abstract class AbstractAbility implements IAbility {
      * @return True if the GrassPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkGrassEnergy(GrassPokemon pokemon) {
+    public boolean checkGrassEnergy(AbstractGrassPokemon pokemon) {
         return true;
     }
 
@@ -75,7 +79,7 @@ public abstract class AbstractAbility implements IAbility {
      * @return True if the PsychicPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkPsychicEnergy(PsychicPokemon pokemon) {
+    public boolean checkPsychicEnergy(AbstractPsychicPokemon pokemon) {
         return true;
     }
 
@@ -85,9 +89,13 @@ public abstract class AbstractAbility implements IAbility {
      * @return True if the WaterPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkWaterEnergy(WaterPokemon pokemon) {
+    public boolean checkWaterEnergy(AbstractWaterPokemon pokemon) {
         return true;
     }
 
 
+    @Override
+    public Effect getEffect() {
+        return this.effect;
+    }
 }

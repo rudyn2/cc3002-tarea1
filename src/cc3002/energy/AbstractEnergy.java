@@ -49,8 +49,9 @@ public abstract class AbstractEnergy implements IEnergy {
 
 
     @Override
-    public void play(ITrainer trainer) {
+    public boolean play(ITrainer trainer) {
         this.assignEnergy(trainer.getActivePokemon());
+        return true;
     }
 
     /**

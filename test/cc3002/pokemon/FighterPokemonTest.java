@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.FighterEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +10,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FighterPokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
+
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
     private ElectricAttack electricAttack;
@@ -27,11 +31,12 @@ class FighterPokemonTest {
     private ArrayList<IAttack> fighterAttacks;
     private ArrayList<IAttack> waterAttacks;
 
-    private FighterPokemon machoke;
-    private WaterPokemon squirtle;
+    private BasicFighterPokemon machoke;
+    private BasicWaterPokemon squirtle;
 
     private FighterEnergy fighterEnergy;
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -50,11 +55,15 @@ class FighterPokemonTest {
 
         // machoke attacks assignation
         fighterAttacks = new ArrayList<>(Arrays.asList(fighterAttack, supremeFighterAttack));
-        machoke = new FighterPokemon(100, "Machoke", 1, fighterAttacks);
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        machoke = new BasicFighterPokemon(100, "Machoke", 1, fighterAttacks, basicAbilities);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         fighterEnergy = new FighterEnergy("Energía para guerreros", 40);
@@ -67,20 +76,21 @@ class FighterPokemonTest {
     void battleTest(){
 
         // The fighter pokemon doesnt have energy
-        machoke.attack(squirtle);
+        machoke.useAttack(squirtle);
         assertEquals(100, squirtle.getHp());
 
         // Energy assignation and attack
         fighterEnergy.assignEnergy(machoke);
-        machoke.attack(squirtle);
+        machoke.useAttack(squirtle);
         assertEquals(90, squirtle.getHp());
+        assertTrue(heal.checkFighterEnergy(machoke));
 
-        machoke.attack(squirtle);
+        machoke.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 80);
 
         squirtle.selectAttack(1);
         waterEnergy.assignEnergy(squirtle);
-        squirtle.attack(machoke);
+        squirtle.useAttack(machoke);
         assertEquals(machoke.getHp(), 50);
         assertFalse(machoke.isDead());
     }

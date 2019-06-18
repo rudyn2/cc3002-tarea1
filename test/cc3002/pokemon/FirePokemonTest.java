@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.FireEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,10 @@ import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FirePokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
+
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
     private ElectricAttack electricAttack;
@@ -26,11 +31,12 @@ class FirePokemonTest {
     private ArrayList<IAttack> fireAttacks;
     private ArrayList<IAttack> waterAttacks;
 
-    private FirePokemon charmander;
-    private WaterPokemon squirtle;
+    private BasicFirePokemon charmander;
+    private BasicWaterPokemon squirtle;
 
     private FireEnergy fireEnergy;
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -49,11 +55,15 @@ class FirePokemonTest {
 
         // charmander attacks assignation
         fireAttacks = new ArrayList<>(Arrays.asList(fireAttack, supremeFireAttack));
-        charmander = new FirePokemon(100, "Charmander", 1, fireAttacks);
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        charmander = new BasicFirePokemon(100, "Charmander", 1, fireAttacks, basicAbilities);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         fireEnergy = new FireEnergy("Energía de fuego", 40);
@@ -64,20 +74,21 @@ class FirePokemonTest {
 
     @Test
     void battleTest(){
-        charmander.attack(squirtle);
+        charmander.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 100);
 
         fireEnergy.assignEnergy(charmander);
-        charmander.attack(squirtle);
+        charmander.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 90);
+        assertTrue(heal.checkFireEnergy(charmander));
 
-        charmander.attack(squirtle);
+        charmander.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 80);
 
         squirtle.selectAttack(1);
         assertEquals(supremeWaterAttack, squirtle.getSelectedAttack());
         waterEnergy.assignEnergy(squirtle);
-        squirtle.attack(charmander);
+        squirtle.useAttack(charmander);
         assertEquals(charmander.getHp(), 0 );
         assertTrue(charmander.isDead());
     }

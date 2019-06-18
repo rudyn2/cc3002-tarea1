@@ -23,41 +23,41 @@ public interface ISkill {
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkFireEnergy(FirePokemon pokemon);
+    boolean checkFireEnergy(AbstractFirePokemon pokemon);
 
     /**
      * Method to check if the specified ElectricPokemon has enough electric energies.
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkElectricEnergy(ElectricPokemon pokemon);
+    boolean checkElectricEnergy(AbstractElectricPokemon pokemon);
 
     /**
      * Method to check if the specified FighterPokemon has enough fighter energies.
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkFighterEnergy(FighterPokemon pokemon);
+    boolean checkFighterEnergy(AbstractFighterPokemon pokemon);
 
     /**
      * Method to check if the specified GrassPokemon has enough grass energies.
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkGrassEnergy(GrassPokemon pokemon);
+    boolean checkGrassEnergy(AbstractGrassPokemon pokemon);
 
     /**
      * Method to check if the specified PsychicPokemon has enough psychic energies.
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkPsychicEnergy(PsychicPokemon pokemon);
+    boolean checkPsychicEnergy(AbstractPsychicPokemon pokemon);
 
     /**
      * Method to check if the specified WaterPokemon has enough water energies.
      * @param pokemon The pokemon that will be reviewed.
      * @return True if the specified pokemon can perform the attack according its available energies.
      */
-    boolean checkWaterEnergy(WaterPokemon pokemon);
+    boolean checkWaterEnergy(AbstractWaterPokemon pokemon);
 
 }

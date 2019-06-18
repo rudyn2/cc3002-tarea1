@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.PsychicEnergy;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +10,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PsychicPokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
 
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
@@ -28,11 +31,12 @@ class PsychicPokemonTest {
     private ArrayList<IAttack> waterAttacks;
     private ArrayList<IAttack> psychicAttacks;
 
-    private PsychicPokemon mewtwo;
-    private WaterPokemon squirtle;
+    private BasicPsychicPokemon mewtwo;
+    private BasicWaterPokemon squirtle;
 
     private PsychicEnergy psychicEnergy;
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -51,11 +55,15 @@ class PsychicPokemonTest {
 
         // mewtwo attacks assignation
         psychicAttacks = new ArrayList<>(Arrays.asList(psychicAttack, supremePsychicAttack));
-        mewtwo = new PsychicPokemon(100, "Mewtwo", 1, psychicAttacks);
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        mewtwo = new BasicPsychicPokemon(100, "Mewtwo", 1, psychicAttacks, basicAbilities);
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        squirtle = new WaterPokemon(100, "Squirtle", 2, waterAttacks);
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         psychicEnergy = new PsychicEnergy("Energía mental", 40);
@@ -66,17 +74,18 @@ class PsychicPokemonTest {
 
     @Test
     void battleTest(){
-        mewtwo.attack(squirtle);
+        mewtwo.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 100);
 
         psychicEnergy.assignEnergy(mewtwo);
-        mewtwo.attack(squirtle);
+        mewtwo.useAttack(squirtle);
         assertEquals(squirtle.getHp(), 90);
+        assertTrue(heal.checkPsychicEnergy(mewtwo));
 
         squirtle.selectAttack(1);
         assertEquals(supremeWaterAttack, squirtle.getSelectedAttack());
         waterEnergy.assignEnergy(squirtle);
-        squirtle.attack(mewtwo);
+        squirtle.useAttack(mewtwo);
         assertEquals(mewtwo.getHp(), 50);
         assertFalse(mewtwo.isDead());
     }

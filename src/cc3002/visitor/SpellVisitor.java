@@ -1,9 +1,9 @@
 package cc3002.visitor;
 
+import cc3002.attack.IAbility;
 import cc3002.effect.Effect;
+import cc3002.effect.InstantEffect;
 import cc3002.game.GameDriver;
-import cc3002.trainer.ITrainer;
-import cc3002.trainercard.ContinuousObject;
 import cc3002.trainercard.InstantObject;
 import cc3002.trainercard.Stadium;
 import cc3002.trainercard.Support;
@@ -20,8 +20,9 @@ public class SpellVisitor implements IVisitor {
     @Override
     public void visitStadium(Stadium stadium) {
         gameDriver.setStadium(stadium);
+        this.playInstantEffect(stadium.getEffect());
         gameDriver.getActiveTrainer().discardCard(stadium);
-        gameDriver.getQueue().remove(stadium);
+
     }
 
     @Override
@@ -31,15 +32,14 @@ public class SpellVisitor implements IVisitor {
     }
 
     @Override
-    public void visitContinuousObject(ContinuousObject instantObject) {
-
-    }
-
-    @Override
     public void visitInstantObject(InstantObject instantObject) {
         this.playInstantEffect(instantObject.getEffect());
     }
 
+    @Override
+    public void visitAbility(IAbility ability) {
+        this.playInstantEffect(ability.getEffect());
+    }
 
 
     private void playInstantEffect(Effect F){

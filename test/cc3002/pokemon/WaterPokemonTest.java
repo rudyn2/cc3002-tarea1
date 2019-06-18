@@ -1,6 +1,7 @@
 package cc3002.pokemon;
 
 import cc3002.attack.*;
+import cc3002.effect.Potion;
 import cc3002.energy.WaterEnergy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class WaterPokemonTest {
+
+    private Heal heal;
+    private ArrayList<IAbility> basicAbilities;
+
     private FireAttack fireAttack;
     private WaterAttack waterAttack;
     private ElectricAttack electricAttack;
@@ -23,10 +28,11 @@ class WaterPokemonTest {
 
     private ArrayList<IAttack> waterAttacks;
 
-    private WaterPokemon firstSquirtle;
-    private WaterPokemon secondSquirtle;
+    private BasicWaterPokemon firstSquirtle;
+    private BasicWaterPokemon secondSquirtle;
 
     private WaterEnergy waterEnergy;
+    private Potion healEffect;
 
     @BeforeEach
     void setUp() {
@@ -44,8 +50,12 @@ class WaterPokemonTest {
 
         // squirtle attacks assignation
         waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
-        firstSquirtle = new WaterPokemon(100, "First Squirtle",1, waterAttacks);
-        secondSquirtle = new WaterPokemon(100, "Second Squirtle", 2, waterAttacks);
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+        basicAbilities = new ArrayList<>();
+        basicAbilities.add(heal);
+        firstSquirtle = new BasicWaterPokemon(100, "First Squirtle",1, waterAttacks, basicAbilities);
+        secondSquirtle = new BasicWaterPokemon(100, "Second Squirtle", 2, waterAttacks, basicAbilities);
 
         // energy creation
         waterEnergy = new WaterEnergy("Energía de agua", 40);
@@ -55,17 +65,17 @@ class WaterPokemonTest {
 
     @Test
     void battleTest(){
-        secondSquirtle.attack(firstSquirtle);
+        secondSquirtle.useAttack(firstSquirtle);
         assertEquals(secondSquirtle.getHp(), 100);
 
         waterEnergy.assignEnergy(firstSquirtle);
-        firstSquirtle.attack(secondSquirtle);
+        firstSquirtle.useAttack(secondSquirtle);
         assertEquals(secondSquirtle.getHp(), 90);
 
         secondSquirtle.selectAttack(1);
         assertEquals(supremeWaterAttack, secondSquirtle.getSelectedAttack());
         waterEnergy.assignEnergy(secondSquirtle);
-        secondSquirtle.attack(firstSquirtle);
+        secondSquirtle.useAttack(firstSquirtle);
         assertEquals(firstSquirtle.getHp(), 50);
         assertFalse(firstSquirtle.isDead());
     }

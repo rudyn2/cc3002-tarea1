@@ -6,19 +6,8 @@ import cc3002.visitor.IVisitor;
 
 public class InstantObject extends AbstractTrainerCard {
 
-
-    public IPokemon getTarget() {
-        return target;
-    }
-
-    /**
-     * This field specifies if the object needs some target.
-     */
-    private IPokemon target;
-
-    public InstantObject(String name, InstantEffect effect, IPokemon target) {
+    public InstantObject(String name, InstantEffect effect) {
         super(name, effect);
-        this.target = target;
     }
 
 

@@ -6,7 +6,6 @@ import cc3002.trainer.ITrainer;
 public abstract class AbstractTrainerCard implements ITrainerCard {
 
     private String name;
-    private String info;
     private Effect effect;
 
     public AbstractTrainerCard(String name, Effect effect) {
@@ -31,7 +30,7 @@ public abstract class AbstractTrainerCard implements ITrainerCard {
      */
     @Override
     public String getInfo() {
-        return this.info;
+        return "Nombre: " + this.getName() + ", Tipo: Carta de entrenador";
     }
 
     public Effect getEffect() {
@@ -39,8 +38,9 @@ public abstract class AbstractTrainerCard implements ITrainerCard {
     }
 
     @Override
-    public void play(ITrainer trainer) {
+    public boolean play(ITrainer trainer) {
         trainer.addTrainerCardQueue(this);
+        return true;
 
     }
 

@@ -33,6 +33,7 @@ public class Trainer implements ITrainer {
      * The active pokemon of the trainer
      */
     private IPokemon activePokemon;
+
     /**
      * The bench of the trainer.
      */
@@ -48,28 +49,17 @@ public class Trainer implements ITrainer {
      * Generic constructor for the class Trainer. It will initialize a trainer with the minimal amount of
      * information required to begin some game.
      * @param name The name of the trainer.
-     * @param hand An ArrayList with the initial cards.
-     * @param activePokemon The initial active pokemon.
-     * @param bench An ArrayList with the initial bench.
+     * @param deck The initial deck of the trainer.
      */
-    public Trainer(String name, ArrayList<ICard> hand, IPokemon activePokemon, IBench bench, IDeck deck) {
+    public Trainer(String name, IDeck deck) {
         this.name = name;
-        this.hand = hand;
-        this.activePokemon = activePokemon;
-        this.bench = bench;
         this.deck = deck;
+        this.hand = new ArrayList<>();
+        this.bench = new Bench();
         this.discardDeck = new Deck(new ArrayList<>());
     }
 
-    /**
-     * Generic constructor for the class Trainer. It will initialize a simplified
-     * trainer with some information required to begin some game.
-     * @param name The name of the trainer
-     * @param hand The initial hand.
-     */
-    public Trainer(String name, ArrayList<ICard> hand, IDeck deck) {
-        this(name, hand, null, new Bench(), deck);
-    }
+
 
     /**
      * Getter for the name of the trainer.
@@ -120,32 +110,48 @@ public class Trainer implements ITrainer {
     @Override
     public void playCard(int option) {
         if(this.isValidOption(option)){
-            this.hand.get(option).play(this);
-            this.hand.remove(option);
+            boolean opResult = this.hand.get(option).play(this);
+            if (opResult) {this.hand.remove(option);}
         }
 
     }
 
-    /**
-     * Method that adds a pokemon to the pokemon's bench.
-     *
-     * @param pokemon The pokemon that will be added to the bench.
-     */
-    @Override
-    public void addPokemon(IPokemon pokemon) {
-        this.bench.add(pokemon);
+    public IBench getBench() {
+        return bench;
     }
+
+    @Override
+    public boolean addBasicPokemon(IPokemon pokemon) {
+        return this.bench.add(pokemon);
+    }
+
+    @Override
+    public boolean addS1Pokemon(IPokemon pokemon) {
+        IPokemon p = bench.addS1Pokemon(pokemon);
+        if (p == null) { return false; }
+        this.discardCard(p);
+        return true;
+    }
+
+    @Override
+    public boolean addS2Pokemon(IPokemon pokemon) {
+        IPokemon p = bench.addS2Pokemon(pokemon);
+        if (p == null) { return false; }
+        this.discardCard(p);
+        return true;
+    }
+
 
     /**
      * Method that changes the active pokemon from someone chose between the available pokemon's in the hand.
-     * If it's some pokemon as an active pokemon it will go to the bench, if the bench is full it will be to
+     * If it's some pokemon as an active pokemon the chosen one will go to the bench, if the bench is full it will be to
      * the hand.
      * @param option The pokemon that will be the new active pokemon.
      */
     @Override
     public void changeActivePokemonFromTheHand(int option) {
         if(this.isValidOption(option)){
-            if (!this.bench.isEmpty() && !this.bench.isFull()){
+            if (!this.bench.isFull()){
                 this.bench.add(this.getActivePokemon());
             } else {
                 this.hand.add(this.getActivePokemon());
@@ -164,7 +170,9 @@ public class Trainer implements ITrainer {
     public void receiveAttack(ITrainer enemyTrainer) {
         // If it's alive attack
         if (this.activePokemon != null && !this.activePokemon.isDead()){
-            enemyTrainer.getActivePokemon().useAttack(this.activePokemon);
+            if (enemyTrainer.getActivePokemon() != null){
+                enemyTrainer.getActivePokemon().useAttack(this.activePokemon);
+            }
         } else {
             // If it is not alive and exists someone, change it and attack it
             if (!this.bench.isEmpty()){
@@ -210,7 +218,7 @@ public class Trainer implements ITrainer {
      */
     @Override
     public boolean isOver() {
-        return (activePokemon == null || activePokemon.isDead()) && bench.isEmpty() ;
+        return (activePokemon == null || activePokemon.isDead()) && bench.isEmpty() && (this.hand.size() == 0) ;
     }
 
 
@@ -221,19 +229,21 @@ public class Trainer implements ITrainer {
 
     @Override
     public void discardCard(ICard card) {
-        hand.remove(card);
+        if (card != null) {hand.remove(card);}
     }
 
     // Just some methods can add cards to cards to play array. This array will control
     // the execution of the effects in the controller
     @Override
-    public void addAbilityQueue(IAbility ability) {
+    public boolean addAbilityQueue(IAbility ability) {
         this.abilitiesToPlay.add(ability);
+        return true;
     }
 
     @Override
-    public void addTrainerCardQueue(ITrainerCard trainerCard) {
+    public boolean addTrainerCardQueue(ITrainerCard trainerCard) {
         this.trainerCardsToPlay.add(trainerCard);
+        return true;
     }
 
     @Override
@@ -252,6 +262,11 @@ public class Trainer implements ITrainer {
     @Override
     public ArrayList<ITrainerCard> getTrainerQueue() {
         return trainerCardsToPlay;
+    }
+
+    @Override
+    public ArrayList<IAbility> getAbilitiesQueue() {
+        return this.abilitiesToPlay;
     }
 
 

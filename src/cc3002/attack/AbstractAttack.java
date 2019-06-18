@@ -1,9 +1,7 @@
 package cc3002.attack;
 
 import cc3002.energy.IEnergy;
-import cc3002.game.GameDriver;
 import cc3002.pokemon.*;
-import cc3002.visitor.IVisitor;
 
 import java.util.ArrayList;
 
@@ -111,7 +109,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the FirePokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkFireEnergy(FirePokemon pokemon) {
+    public boolean checkFireEnergy(AbstractFirePokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("FireEnergies");
         return this.countEnergy(energies) >= this.cost;
 
@@ -123,7 +121,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the ElectricPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkElectricEnergy(ElectricPokemon pokemon) {
+    public boolean checkElectricEnergy(AbstractElectricPokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("ElectricEnergies");
         return this.countEnergy(energies) >= this.cost;
     }
@@ -134,7 +132,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the FighterPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkFighterEnergy(FighterPokemon pokemon) {
+    public boolean checkFighterEnergy(AbstractFighterPokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("FighterEnergies");
         return this.countEnergy(energies) > this.cost;
     }
@@ -145,7 +143,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the GrassPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkGrassEnergy(GrassPokemon pokemon) {
+    public boolean checkGrassEnergy(AbstractGrassPokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("GrassEnergies");
         return this.countEnergy(energies) > this.cost;
     }
@@ -156,7 +154,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the PsychicPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkPsychicEnergy(PsychicPokemon pokemon) {
+    public boolean checkPsychicEnergy(AbstractPsychicPokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("PsychicEnergies");
         return this.countEnergy(energies) > this.cost;
     }
@@ -167,7 +165,7 @@ public abstract class AbstractAttack implements IAttack {
      * @return True if the WaterPokemon has more or equal amount of energy than the cost of the attack.
      */
     @Override
-    public boolean checkWaterEnergy(WaterPokemon pokemon) {
+    public boolean checkWaterEnergy(AbstractWaterPokemon pokemon) {
         ArrayList<IEnergy> energies = pokemon.energyAvailable.get("WaterEnergies");
         return this.countEnergy(energies) > this.cost;
     }

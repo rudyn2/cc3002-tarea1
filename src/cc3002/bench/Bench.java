@@ -1,8 +1,9 @@
 package cc3002.bench;
 
+import cc3002.energy.IEnergy;
 import cc3002.pokemon.IPokemon;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Generic class for a bench made of pokemons. This class can control the behavior of a bench with pokemons.
@@ -34,8 +35,14 @@ public class Bench implements IBench {
         } else {
             this.bench = bench;
         }
-
     }
+
+
+    /**
+     * Method that search a pokemon by its id. If one pokemon is found
+     * @param id
+     * @return
+     */
 
 
     /**
@@ -44,10 +51,11 @@ public class Bench implements IBench {
      * @param pokemon The pokemon that will be added.
      */
     @Override
-    public void add(IPokemon pokemon) {
+    public boolean add(IPokemon pokemon) {
         if (!this.isFull()){
             this.bench.add(pokemon);
-        }
+            return true;
+        } return false;
     }
 
     /**
@@ -130,6 +138,33 @@ public class Bench implements IBench {
         return this.count() == 5;
     }
 
+    @Override
+    public IPokemon addS1Pokemon(IPokemon pokemon) {
+        for (IPokemon p: this.bench){
+            if (p.getId() == pokemon.getId() && p.checkBasic()){
+                if(!this.isFull()){
+                    transferEnergies(p, pokemon);
+                    bench.add(pokemon);
+                    bench.remove(p);
+                    return p;               // The trainer will discard the pokemon
+                }
+            }
+        } return null;
+    }
+
+    @Override
+    public IPokemon addS2Pokemon(IPokemon pokemon) {
+        for (IPokemon p: this.bench){
+            if (p.getId() == pokemon.getId() && p.checkS1()){
+                if(!this.isFull()){
+                    transferEnergies(p, pokemon);
+                    bench.add(pokemon);
+                    return p;               // The trainer will discard the pokemon
+                }
+            }
+        } return null;
+    }
+
 
     /**
      * Method that checks if the chosen option is valid.
@@ -138,5 +173,19 @@ public class Bench implements IBench {
      */
     private boolean isValidOption(int option){
         return (option >= 0) && (option < this.count());
+    }
+
+    private void transferEnergies(IPokemon p, IPokemon q){
+        HashMap<String, ArrayList<IEnergy>> energies = p.getEnergyHash();
+
+        // Iterate over all the energies and assign them to the new pokemon
+        for (String s: energies.keySet()){
+            ArrayList<IEnergy> energyArray = energies.get(s);
+            for (IEnergy e : energyArray){
+                e.assignEnergy(q);
+                energyArray.remove(e);
+            }
+        }
+
     }
 }

@@ -43,7 +43,8 @@ public interface ITrainer {
     void attack(ITrainer trainer);
 
     /**
-     * Method to play some card. If the card is a energy it will be assigned to the active pokemon.
+     * Method to play some card that doesn't require a target like a trainer card or a pokemon. The case of the
+     * energy card will be treated different.
      * Else, the card is a pokemon and then will be added to the bench.
      * @param option The number of the card that will be played.
      */
@@ -54,7 +55,11 @@ public interface ITrainer {
      * Method that adds a pokemon to the pokemon's bench.
      * @param pokemon The pokemon that will be added to the bench.
      */
-    void addPokemon(IPokemon pokemon);
+    boolean addBasicPokemon(IPokemon pokemon);
+
+    boolean addS1Pokemon(IPokemon pokemon);
+
+    boolean addS2Pokemon(IPokemon pokemon);
 
 
     /**
@@ -94,11 +99,14 @@ public interface ITrainer {
     void drawCard();
     void  discardCard(ICard card);
 
-    void addAbilityQueue(IAbility ability);
-    void addTrainerCardQueue(ITrainerCard trainerCard);
+    boolean addAbilityQueue(IAbility ability);
+    boolean addTrainerCardQueue(ITrainerCard trainerCard);
 
     void usePokemonAbility();
     void usePokemonAttack(ITrainer targetTrainer);
 
     ArrayList<ITrainerCard> getTrainerQueue();
+
+    ArrayList<IAbility> getAbilitiesQueue();
+
 }

@@ -1,12 +1,15 @@
 package cc3002.game;
+import cc3002.attack.IAbility;
 import cc3002.card.ICard;
 import cc3002.trainer.ITrainer;
+import cc3002.trainer.Trainer;
 import cc3002.trainercard.ITrainerCard;
 import cc3002.trainercard.Stadium;
 import cc3002.visitor.IVisitor;
 import cc3002.visitor.SpellVisitor;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameDriver {
 
@@ -16,47 +19,60 @@ public class GameDriver {
     private ICard stadiumCard;
 
 
-    private ArrayList<ITrainerCard> queue;
+    private ArrayList<ITrainerCard> trainerQueue;
+    private ArrayList<IAbility> abilitiesQueue;
 
 
-    public GameDriver(boolean isOver, ITrainer trainer1, ITrainer trainer2) {
-        this.isOver = isOver;
+    public  GameDriver(ITrainer trainer1, ITrainer trainer2) {
+        this.isOver = false;
         this.activeTrainer = trainer1;
         this.inactiveTrainer = trainer2;
     }
 
-    private void watchCards(ITrainer trainer){
-        for (ICard c: trainer.getHand()) {
-            c.getName();
-        }
+    public void watchCards(ITrainer trainer){
+        trainer.visualizeHand();
     }
 
-    private void startTurn(ITrainer trainer){
-        trainer.drawCard();
-        trainer.playCard(0);
+    public void startTurn(){
+        this.activeTrainer.drawCard();
     }
 
-    private void activateAttack(){
+    public void activateAttack(){
         this.activeTrainer.usePokemonAttack(inactiveTrainer);
     }
 
-    private void activateAbility(){
+    public void activateAbility(){
         this.activeTrainer.usePokemonAbility();
     }
 
     private void executeEffects(){
-        queue = activeTrainer.getTrainerQueue();
-        for(ITrainerCard c: queue){
+        trainerQueue = activeTrainer.getTrainerQueue();
+        abilitiesQueue = activeTrainer.getAbilitiesQueue();
+        Iterator<ITrainerCard> iter1 = trainerQueue.iterator();
+        Iterator<IAbility> iter2 = abilitiesQueue.iterator();
+
+        // An iterator executes all the trainer cards instant effects
+        while (iter1.hasNext()) {
+            ITrainerCard c = iter1.next();
             IVisitor v = new SpellVisitor();
             v.set(this);
             c.accept(v);
         }
+
+        // A second iterator executes the abilities in case that someone was launched
+        while (iter2.hasNext()) {
+            IAbility ability = iter2.next();
+            IVisitor v = new SpellVisitor();
+            v.set(this);
+            ability.accept(v);
+        }
     }
 
-    private void finishTurn(){
+    public void finishTurn(){
         if (this.activeTrainer.isOver()){
             this.isOver = true;
         } else {
+            this.executeEffects();
             ITrainer aux;
             aux = this.activeTrainer;
             this.activeTrainer = inactiveTrainer;
@@ -67,9 +83,6 @@ public class GameDriver {
 
     public ITrainer getActiveTrainer(){ return this.activeTrainer;}
     public ITrainer getInactiveTrainer() { return this.inactiveTrainer;}
-    public ArrayList<ITrainerCard> getQueue() {
-        return queue;
-    }
 
     public void setStadium(Stadium stadium) {
         this.stadiumCard = stadium;

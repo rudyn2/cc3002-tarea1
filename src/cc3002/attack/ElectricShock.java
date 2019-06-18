@@ -11,7 +11,7 @@ public class ElectricShock extends AbstractAttack {
      * @param baseDamage  The base damage of the attack.
      * @param cost        The cost of the attack.
      */
-    ElectricShock(String name, String description, int baseDamage, int cost) {
+    public ElectricShock(String name, String description, int baseDamage, int cost) {
         super(name, description, baseDamage, cost);
     }
 

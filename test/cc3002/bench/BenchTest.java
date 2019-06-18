@@ -1,10 +1,8 @@
 package cc3002.bench;
 
 import cc3002.attack.*;
-import cc3002.pokemon.ElectricPokemon;
-import cc3002.pokemon.FirePokemon;
-import cc3002.pokemon.GrassPokemon;
-import cc3002.pokemon.PsychicPokemon;
+import cc3002.effect.Potion;
+import cc3002.pokemon.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,57 +14,68 @@ import static org.junit.jupiter.api.Assertions.*;
 class BenchTest {
     private Bench bench;
 
+    private Heal heal;
+
     private FireAttack fireAttack;
     private FireAttack supremeFireAttack;
-
-    private ElectricAttack electricAttack;
-    private ElectricAttack supremeElectricAttack;
-
-    private GrassAttack grassAttack;
-    private GrassAttack supremeGrassAttack;
 
     private PsychicAttack psychicAttack;
     private PsychicAttack supremePsychicAttack;
 
+    private GrassAttack grassAttack;
+    private GrassAttack supremeGrassAttack;
+
+    private WaterAttack waterAttack;
+    private WaterAttack supremeWaterAttack;
+
 
     private ArrayList<IAttack> fireAttacks;
-    private ArrayList<IAttack> electricAttacks;
+    private ArrayList<IAttack> waterAttacks;
     private ArrayList<IAttack> psychicAttacks;
     private ArrayList<IAttack> grassAttacks;
 
-    private FirePokemon charmander;
-    private ElectricPokemon pikachu;
-    private PsychicPokemon mew;
-    private GrassPokemon bayleef;
+    private ArrayList<IAbility> basicAbilities;
+
+    private AbstractFirePokemon charmander;
+    private AbstractWaterPokemon squirtle;
+    private AbstractPsychicPokemon mew;
+    private AbstractGrassPokemon bayleef;
+    private Potion healEffect;
+
     @BeforeEach
     void setUp() {
         bench = new Bench();
 
         fireAttack = new FireAttack("LLama de fuego", "Fuego azul valyrio", 10, 5);
         supremeFireAttack = new FireAttack("Tormenta de fuego", "", 50, 12);
-        psychicAttack = new PsychicAttack("Engaño", "Te aturde", 10, 5);
-        supremePsychicAttack = new PsychicAttack("Super engaño", "Te super aturde", 50,10);
+        waterAttack = new WaterAttack("Bola de agua", "", 10, 4);
+        supremeWaterAttack = new WaterAttack("Tsunami", "", 50, 10);
 
-        electricAttack = new ElectricAttack("Rayo", "Te electrocuta", 10, 5);
-        supremeElectricAttack = new ElectricAttack("Rasho a 100 kV", "Te quema", 50,10);
+        psychicAttack = new PsychicAttack("Engaño", "Te aturde", 10, 5);
+        supremePsychicAttack = new PsychicAttack("Super engaño", "Te super aturde", 50, 10);
         grassAttack = new GrassAttack("Rama en la cara", "Muchas hojas", 10, 5);
         supremeGrassAttack = new GrassAttack("Ramazo", "Super hoja", 50, 10);
 
+        healEffect = new Potion("Random heal effect");
+        heal = new Heal("Heal", "Habilidad sanadora", healEffect);
+
+
         // Creation of charmander
         fireAttacks = new ArrayList<>(Arrays.asList(fireAttack, supremeFireAttack));
-        charmander = new FirePokemon(100, "Charmander", 1, fireAttacks);
+        charmander = new BasicFirePokemon(100, "Charmander", 1, fireAttacks, basicAbilities);
 
         // Creation of squirtle
-        electricAttacks = new ArrayList<>(Arrays.asList(electricAttack, supremeElectricAttack));
-        pikachu = new ElectricPokemon(100, "Pikachu", 2, electricAttacks);
+        waterAttacks = new ArrayList<>(Arrays.asList(waterAttack, supremeWaterAttack));
+        squirtle = new BasicWaterPokemon(100, "Squirtle", 2, waterAttacks, basicAbilities);
 
         // Creation of mew
         psychicAttacks = new ArrayList<>(Arrays.asList(psychicAttack, supremePsychicAttack));
-        mew = new PsychicPokemon(100, "Mew", 3, psychicAttacks);
+        mew = new BasicPsychicPokemon(100, "Mew", 3, psychicAttacks, basicAbilities);
 
         // Creation of Bayleef
         grassAttacks = new ArrayList<>(Arrays.asList(grassAttack, supremeGrassAttack));
-        bayleef = new GrassPokemon(100, "Bayleef", 4, grassAttacks);
+        bayleef = new BasicGrassPokemon(100, "Bayleef", 4, grassAttacks, basicAbilities);
+
     }
 
     /**
@@ -78,13 +87,13 @@ class BenchTest {
         assertTrue(bench.isEmpty());
         bench.add(charmander);
         assertEquals(1, bench.count());
-        bench.add(pikachu);
+        bench.add(squirtle);
         bench.add(mew);
         assertEquals(mew, bench.pop());
         bench.add(mew);
         bench.add(bayleef);
         // This element is deliberately added in order to reduce pokemon creations.
-        bench.add(pikachu);
+        bench.add(charmander);
         assertTrue(bench.isFull());
         bench.visualize();
 

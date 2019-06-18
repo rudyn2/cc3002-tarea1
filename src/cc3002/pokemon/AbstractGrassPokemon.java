@@ -7,9 +7,9 @@ import cc3002.attack.WaterAttack;
 
 import java.util.ArrayList;
 
-public class GrassPokemon extends AbstractPokemon {
+public abstract class AbstractGrassPokemon extends AbstractPokemon {
 
-    public GrassPokemon(int hp, String name, int id, ArrayList<IAttack> attacks, ArrayList<IAbility> abilities) {
+    public AbstractGrassPokemon(int hp, String name, int id, ArrayList<IAttack> attacks, ArrayList<IAbility> abilities) {
         super(hp, name, id, attacks, abilities);
     }
 
